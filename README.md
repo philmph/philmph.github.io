@@ -1,2 +1,5 @@
 # philmph.github.io
-Repository to host my GitHub pages used for my future Blog
+
+This repository deploys my [blog](https://pmaier.at) using **[HUGO](https://gohugo.io/)**, **[GitHub Pages](https://pages.github.com/)** and **[Cloudflare](https://www.cloudflare.com/)**.
+
+Thank you, HUGO and PaperMod community 👍.
