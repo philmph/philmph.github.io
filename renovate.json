@@ -1,0 +1,4 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>philmph/renovate-bot//renovate-repo-config/default.json"]
+}
