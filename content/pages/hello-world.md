@@ -3,23 +3,27 @@ date: "2025-05-06T21:03:47+02:00"
 description: ""
 params:
   author: "Philipp Maier"
-summary: "This is a test"
+summary: "Nothing to see or learn here ..."
 title: "👋 Hello World"
 tags: [""]
 ---
 
-## Welcome
+... but you clicked anyway 😉.
 
-Nice to have you here. You will learn nothing from this post but I am happy it works and looks good 😄.
+However, there really is nothing to see or learn here. I am just happy this page works and looks good.
 
-### Header Level 3
+### Next Header Level
 
 Some text.
 
-#### Header Level 4
-
-Some more text.
+#### Sample Code
 
 ```bash
-echo "Hello World, again"
+echo "Some code with a copy button"
 ```
+
+#### Sample Table
+
+| Yes     | No     |
+| ------- | ------ |
+| `false` | `true` |
