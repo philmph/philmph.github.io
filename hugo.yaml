@@ -11,7 +11,6 @@ caches:
     dir: :cacheDir/images
 
 copyright: "© 2025 by Philipp Maier"
-enableEmoji: true
 enableGitInfo: true
 
 menus:
@@ -20,18 +19,22 @@ menus:
       name: Home
       weight: 10
       pageRef: /
-    - identifier: archive
-      name: Archive
-      weight: 20
-      pageRef: archive/
     - identifier: search
       name: Search
-      weight: 30
+      weight: 20
       pageRef: search/
-    - identifier: tags
-      name: Tags
-      weight: 40
-      pageRef: tags/
+
+    # FIXME: Not working properly
+    # - identifier: archive
+    #   name: Archive
+    #   weight: 20
+    #   pageRef: archive/
+
+    # FIXME: Not working properly
+    # - identifier: tags
+    #   name: Tags
+    #   weight: 40
+    #   pageRef: tags/
 
 # To keep RSS pretty-printed
 minify:
@@ -44,17 +47,14 @@ outputs:
     - rss
     - json
 
-### PaperMod configuration below following https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-variables/
+### PaperMod configuration below
 theme: PaperMod
 
 params:
-  defaultTheme: auto
-
-  profileMode:
-    enabled: false
-
+  # Enable Home-Info Mode
+  # https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-features/#home-info-mode
   homeInfoParams:
-    Title: Yet Another Tech Blog
+    Title: 🐧 Yet Another Tech Blog
     Content: Hi, I'm Philipp. I'll post nerd stuff here.
 
   socialIcons:
@@ -67,9 +67,15 @@ params:
     - name: "kofi"
       url: "https://ko-fi.com/philmph"
 
-  ShowCodeCopyButtons: true
+  # Regular configuration options sorted per docs
+  # https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-variables/
   ShowReadingTime: true
   ShowShareButtons: true
-
-  ShowToc: true
-  TocOpen: true
+  ShowCodeCopyButtons: true
+  defaultTheme: auto
+  showtoc: true
+  ShareButtons:
+    - linkedin
+    - reddit
+    - whatsapp
+    - telegram
