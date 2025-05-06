@@ -71,6 +71,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ runner.temp }}/hugo_cache
+          # key: is required but will never be found since it is a new unique id ->
+          # defaults to restore-keys: as per docs. This will be outputs.cache-primary-key
+          # for step Cache Save
           key: hugo-${{ github.run_id }}
           restore-keys: hugo-
 
