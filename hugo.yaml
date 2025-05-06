@@ -3,46 +3,49 @@ baseURL: https://pmaier.at/
 languageCode: en-us
 title: YATB
 
-### Everything below is added
-theme: PaperMod
+### Hugo configuration below following https://gohugo.io/configuration/all
 
-# TODO: Understand and verify
-# Sourced from https://gohugo.io/host-and-deploy/host-on-github-pages/
+# Based on https://gohugo.io/host-and-deploy/host-on-github-pages/
 caches:
   images:
     dir: :cacheDir/images
 
-# TODO: Understand and verify
-# Required for search (esp. JSON)
-outputs:
-  home:
-    - HTML
-    - RSS
-    - JSON
+copyright: "© 2025 by Philipp Maier"
+enableEmoji: true
+enableGitInfo: true
 
-# TODO: Understand and verify
-minify:
-  disableXML: true
-  minifyOutput: true
-
-menu:
+menus:
   main:
+    - identifier: home
+      name: Home
+      weight: 10
+      pageRef: /
     - identifier: archive
       name: Archive
-      url: archive/
-      weight: 10
+      weight: 20
+      pageRef: archive/
     - identifier: search
       name: Search
-      url: search/
-      weight: 20
+      weight: 30
+      pageRef: search/
     - identifier: tags
       name: Tags
-      url: tags/
-      weight: 30
+      weight: 40
+      pageRef: tags/
 
-# TODO: Understand and verify
-ShowToc: true
-TocOpen: true
+# To keep RSS pretty-printed
+minify:
+  disableXML: true
+
+# Added json based on https://github.com/adityatelange/hugo-PaperMod/wiki/Features#search-page
+outputs:
+  home:
+    - html
+    - rss
+    - json
+
+### PaperMod configuration below following https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-variables/
+theme: PaperMod
 
 params:
   defaultTheme: auto
@@ -67,3 +70,6 @@ params:
   ShowCodeCopyButtons: true
   ShowReadingTime: true
   ShowShareButtons: true
+
+  ShowToc: true
+  TocOpen: true
