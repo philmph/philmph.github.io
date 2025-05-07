@@ -71,8 +71,9 @@ params:
       url: "https://www.linkedin.com/in/philipp-maier-801b54138"
     - name: "xing"
       url: "https://www.xing.com/profile/Philipp_Maier63/cv"
-    - name: "kofi"
-      url: "https://ko-fi.com/philmph"
+    # TODO: Activate later when this actually has valueable content
+    # - name: "kofi"
+    #   url: "https://ko-fi.com/philmph"
 
   # Regular configuration options sorted per docs
   # https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-variables/
