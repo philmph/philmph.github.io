@@ -11,30 +11,33 @@ caches:
     dir: :cacheDir/images
 
 copyright: "© 2025 by Philipp Maier"
-enableGitInfo: true
+enableEmoji: true
+
+# Overwrite the default
+mainsections:
+  - posts
 
 menus:
   main:
     - identifier: home
       name: Home
-      weight: 10
+      weight: 1
       pageRef: /
+
     - identifier: search
       name: Search
-      weight: 20
+      weight: 2
       pageRef: search/
 
-    # FIXME: Not working properly
-    # - identifier: archive
-    #   name: Archive
-    #   weight: 20
-    #   pageRef: archive/
+    - identifier: tags
+      name: Tags
+      weight: 3
+      pageRef: tags/
 
-    # FIXME: Not working properly
-    # - identifier: tags
-    #   name: Tags
-    #   weight: 40
-    #   pageRef: tags/
+    - identifier: archive
+      name: Archive
+      weight: 4
+      pageRef: archive/
 
 # To keep RSS pretty-printed
 minify:
@@ -46,6 +49,10 @@ outputs:
     - html
     - rss
     - json
+
+# Show 5 posts instead of 10 (default)
+pagination:
+  pagerSize: 5
 
 ### PaperMod configuration below
 theme: PaperMod
@@ -73,9 +80,10 @@ params:
   ShowShareButtons: true
   ShowCodeCopyButtons: true
   defaultTheme: auto
-  showtoc: true
+  ShowToc: true
   ShareButtons:
     - linkedin
     - reddit
     - whatsapp
     - telegram
+  ShowRssButtonInSectionTermList: true
