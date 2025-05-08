@@ -1,12 +1,18 @@
 ---
 date: "2025-05-07T20:57:31+02:00"
-description: ""
-params:
-  author: "Philipp Maier"
+modified: "2025-05-08T08:00:21+02:00"
+
+draft: false
+
 summary: "A brief introduction"
 title: "👋 Hello World"
+
+params:
+  author: "Philipp Maier"
 tags: [""]
-weight: 1 # This pins the post to top
+
+# This pins the post to top
+weight: 1
 ---
 
 ## 🧑‍💻 About Me
