@@ -1,19 +1,25 @@
 ---
 date: "2025-05-07T20:57:31+02:00"
-description: ""
-params:
-  author: "Philipp Maier"
+modified: "2025-05-08T08:00:21+02:00"
+
+draft: false
+
 summary: "A brief introduction"
 title: "👋 Hello World"
+
+params:
+  author: "Philipp Maier"
 tags: [""]
-weight: 1 # This pins the post to top
+
+# This pins the post to top
+weight: 1
 ---
 
 ## 🧑‍💻 About Me
 
 First of all, thanks for stopping by - and welcome to my personal blog! I hope you enjoy your time here.
 
-My name is Philipp. I'm a Cloud Engineer working at [Porsche Informatik](https://porscheinformatik.com), based in [Vienna, Austria](https://earth.google.com/web/@48.2206849,16.38005995,161.2107876a,61954.52617226d,35y,0h,0t,0r/data=CkkaRxJBCiUweDQ3NmQwNzllNTEzNmNhOWY6MHhmZGMyZTU4YTUxYTI1YjQ2GRAvmXSlGkhAIW8gbpiyXzBAKgZWaWVubmEYAiAB).
+My name is Philipp. I'm a Cloud Engineer working at [Porsche Informatik](https://porscheinformatik.com), based in [Vienna, Austria](https://en.wikipedia.org/wiki/Vienna).
 
 ## 📚 About This Blog
 

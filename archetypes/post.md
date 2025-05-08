@@ -1,10 +1,13 @@
 ---
 date: "{{ .Date }}"
-description: ""
+modified: "{{ .Date }}"
+
 draft: true
-params:
-  author: "Philipp Maier"
+
 summary: ""
 title: '{{ replace .File.ContentBaseName "-" " " | title }}'
+
+params:
+  author: "Philipp Maier"
 tags: [""]
 ---
