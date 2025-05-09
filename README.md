@@ -4,6 +4,14 @@ This repository deploys my [blog](https://pmaier.at/) hosted at [GitHub Pages](h
 
 💯 Shout-out to the [Hugo](https://gohugo.io/) community and [@adityatelange (Aditya Telange)](https://github.com/adityatelange/).
 
+## Helpers
+
+To create a new post using the `post.md` template.
+
+```bash
+hugo new content --kind post posts/name.md
+```
+
 ## Links
 
 - [Hugo](https://gohugo.io/)
