@@ -1,6 +1,6 @@
 ---
 date: "2025-05-07T20:57:31+02:00"
-modified: "2025-05-11T21:21:36+02:00"
+modified: "2025-05-11T21:21:57+02:00"
 
 draft: false
 
@@ -30,7 +30,8 @@ My goal is to create a space to document my journey, share knowledge, and connec
 ### Content philosophy
 
 - Everything I write is opinionated
-- I will be using OpenTofu throughout my blog. Unless stated otherwise, content _should_ also work with Terraform
+- [OpenTofu](https://opentofu.org/) is the default throughout my blog
+- Basic OpenTofu architecture and usage patterns aren't covered
 - I follow [HashiCorp's Style Guide](https://developer.hashicorp.com/terraform/language/style/) and [Terraform Best Practices](https://www.terraform-best-practices.com/)
 
 ## 📬 Connect with me
