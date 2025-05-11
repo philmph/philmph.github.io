@@ -1,10 +1,10 @@
 ---
 date: "2025-05-07T20:57:31+02:00"
-modified: "2025-05-11T21:21:33+02:00" # TODO
+modified: "2025-05-11T21:21:36+02:00"
 
 draft: false
 
-summary: "A brief introduction"
+summary: "Who I am and what this blog is about"
 title: "👋 Hello World"
 
 params:
