@@ -24,7 +24,7 @@ This post is part one of a two-part series. In this one, I'll show how to use YA
 
 ## Introduction
 
-I'll show how to use `.yaml` files instead of `locals` or `.tfvars` files with `variable` definitions to allow YAML-based, Git-tracked configuration. I've found this useful when working with modules that deploy lots of similar `resource` definitions with different parameters (e.g., DNS records).
+I'll show how to use `.yaml` files instead of `locals` or `variable` definitions with `.tfvars` files to allow YAML-based, Git-tracked configuration. I've found this useful when working with modules that deploy lots of similar `resource` definitions with different parameters (e.g., DNS records).
 
 The main benefits I've seen from this approach:
 
