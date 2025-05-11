@@ -13,16 +13,21 @@ categories: ["opentofu"]
 tags: ["beginner", "opentofu", "terraform", "yaml"]
 ---
 
-## Preface
+## Before we begin
 
-TODO OpenTofu instead of Terraform - working with Terraform
-TODO _Note: The approach shown in this post is highly opinionated._
 TODO Using sample scenario of DNS records
-TODO Following HashiCorp Style Guide for Terraform
-TODO Short Style Guide recap seen in this post
 TODO This is part 1 of a three part series
 
-## About
+## Prerequisite
+
+This blog post doesn't explain how OpenTofu nor YAML works and expects readers to be able to use them.
+
+Following along will also require:
+
+- OpenTofu / Terraform installed
+- A Cloudflare account with a DNS zone
+
+## Introduction
 
 In the first part of this post I will show how to use YAML instead of `locals` or `.tfvars`. This is mainly useful when you have a module which is used to deploy a lot of the same `resource` with different configurations (e.g. DNS records). The second part shows how to define and validate the schema of a YAML file using methos built into OpenTofu.
 
@@ -36,18 +41,22 @@ Without yaml schema validation however, some downsides also arise:
 
 - TODO
 
-## Basics: Using YAML in OpenTofu
+## Using YAML in OpenTofu
 
-To use `.yaml` definition files we will be using the built in functions `file` and `yamldecode`:
+The following folder structure is generated
 
 ```plaintext
 .
-├── config
-│   └── input.yaml
-├── main.tf
+├── configuration
+│   └── dns_records.yaml
 ├── locals.tf
-└── ...
+├── main.tf
+├── providers.tf
+├── terraform.tf
+└── variables.tf
 ```
+
+To use `.yaml` definition files we will be using the built in functions `file` and `yamldecode`:
 
 The following content is added to `locals.tf`
 
@@ -59,16 +68,17 @@ locals {
 }
 ```
 
-## Problem Statement
+### `locals.tf` - Importing the YAML data
 
-## Solution
+### `main.tf` - Using the YAML values in Resources
 
-### Approach 1 - Using locals merge
+## Problems with this approach
 
-### Approach 2 - Using
+### No Defaults
+
+### No Validation
 
 ## References
 
 - [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250509_opentofu-<3-yaml)
-- [GitHub Source (Cloudflare)](TODO)
-- [GitHub Source (Terraform-Explorer)](https://github.com/philmph/Terraform-Explorer/tree/main/yaml-input-with-validation)
+- [Terraform Style Guide](TODO)
