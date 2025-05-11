@@ -1,6 +1,6 @@
 ---
-date: "2025-05-09T21:07:31+02:00"
-modified: "2025-05-09T21:07:31+02:00"
+date: "2025-05-11T22:00:00+02:00" # TODO
+modified: "2025-05-09T21:07:31+02:00" # TODO
 
 draft: false
 
@@ -15,33 +15,29 @@ tags: ["beginner", "opentofu", "terraform", "yaml"]
 
 ## Before we begin
 
-TODO Using sample scenario of DNS records
-TODO This is part 1 of a three part series
+This post is part one of a two-part series. In this one, I'll show how to use YAML configurations in OpenTofu through a simple example. The second part will cover how to define and validate a YAML schema.
 
-## Prerequisite
+### Prerequisites
 
-This blog post doesn't explain how OpenTofu nor YAML works and expects readers to be able to use them.
-
-Following along will also require:
-
-- OpenTofu / Terraform installed
-- A Cloudflare account with a DNS zone
+- [OpenTofu](https://opentofu.org/docs/intro/install/) installed
+- A [Cloudflare](https://www.cloudflare.com/) account with an existing DNS zone
 
 ## Introduction
 
-In the first part of this post I will show how to use YAML instead of `locals` or `.tfvars`. This is mainly useful when you have a module which is used to deploy a lot of the same `resource` with different configurations (e.g. DNS records). The second part shows how to define and validate the schema of a YAML file using methos built into OpenTofu.
+I'll show how to use `.yaml` files instead of `locals` or `.tfvars` files with `variable` definitions to allow YAML-based, Git-tracked configuration. I've found this useful when working with modules that deploy lots of similar `resource` definitions with different parameters (e.g., DNS records).
 
-The main benefits from this approach I have found are:
+The main benefits I've seen from this approach:
 
-- Read- and Writeability
-- Toolchain integration (automation to automation)
-- Provides an easy-to-use abstraction layer for non automation / OpenTofu teams
+- YAML is well-known, easy to read and write
+- Works well with automation toolchains
+- Adds an abstraction layer and enables users to _just write YAML_
 
-Without yaml schema validation however, some downsides also arise:
+However, without YAML schema validation (which is covered in part two), there are some downsides to consider:
 
-- TODO
+- No defaults (unlike `.tfvars` files with `variable` definitions)
+- No proper quality or sanity checks
 
-## Using YAML in OpenTofu
+### Using YAML in OpenTofu
 
 The following folder structure is generated
 
