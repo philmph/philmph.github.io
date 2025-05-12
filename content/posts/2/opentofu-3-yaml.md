@@ -13,7 +13,7 @@ categories: ["opentofu"]
 tags: ["beginner", "opentofu", "terraform", "yaml"]
 ---
 
-## Before we begin
+## 🧭 Before we begin
 
 This post is part one of a two-part series. In this one, I'll show how to use YAML configurations in OpenTofu through a simple example. The second part will cover how to define and validate a YAML schema.
 
@@ -22,9 +22,9 @@ This post is part one of a two-part series. In this one, I'll show how to use YA
 - [OpenTofu](https://opentofu.org/docs/intro/install/) installed
 - A [Cloudflare](https://www.cloudflare.com/) account with an existing DNS zone
 
-## Introduction
+## 📥 Why YAML in OpenTofu?
 
-We'll see how to use `.yaml` files instead of `locals` or `variable` definitions with `.tfvars` files to allow YAML-based, Git-tracked configuration. I've found this useful when working with modules that deploy lots of similar `resource` definitions with different parameters (e.g., DNS records).
+We'll see how to use `.yaml` files instead of `locals` or `variable` definitions with `.tfvars` files to allow YAML-based, Git-tracked configuration. I've found this useful when working with modules that deploy lots of similar `resource` definitions with different values for their parameters (e.g., DNS records).
 
 The sample shows how to create [Cloudflare](https://www.cloudflare.com/) based DNS records.
 
@@ -43,7 +43,7 @@ However, without YAML schema validation (which is covered in part two), there ar
 - No defaults (unlike `variable` definitions with `.tfvars` files)
 - No quality or sanity checks for the provided input
 
-## Using YAML in OpenTofu
+## 🛠️ Using YAML in OpenTofu
 
 To use YAML-based files as configuration, we'll be using the built-in functions [`file`](https://opentofu.org/docs/language/functions/file/) and [`yamldecode`](https://opentofu.org/docs/language/functions/yamldecode/).
 
@@ -57,7 +57,7 @@ The following folder structure is used:
 │   └── dns_records.yaml
 ├── locals.tf
 ├── main.tf
-├── providers.tf ()
+├── providers.tf
 ├── terraform.tf
 └── variables.tf
 ```
@@ -74,7 +74,7 @@ locals {
 }
 ```
 
-After adding this, `local.yaml_data` will contain the imported and decoded YAML-based content from the file `configuration/dns_records.yaml`. We can explore this using `opentofu console` together with the interactive function [`type`](https://opentofu.org/docs/language/functions/type/):
+After adding this, `local.yaml_data` will contain the imported and decoded YAML content from the `configuration/dns_records.yaml` file. We can explore this using `opentofu console` together with the interactive function [`type`](https://opentofu.org/docs/language/functions/type/):
 
 ```bash
 > opentofu console
@@ -119,7 +119,7 @@ resource "cloudflare_dns_record" "this" {
 }
 ```
 
-First, we transform the list from `local.yaml_data.dns_records` into an object that can be used with `for_each`. To give each item a key (`for_each` identifier), we use its `name` field. In this case, the name of the DNS record will be the key.
+First, we transform the list from `local.yaml_data.dns_records` into an object that can be used with `for_each`. To give each item a key (`for_each` identifier), we use its `name` field. In this case, the DNS record name becomes the key.
 
 Here's how that looks:
 
@@ -140,11 +140,9 @@ object({
 })
 ```
 
-Then, we loop over the `cloudflare_dns_record` resource and create the records by running `opentofu apply`.
-
 ---
 
-The sample DNS records which have been added to the `configuration/dns_records.yaml` file:
+The sample DNS records added to the `configuration/dns_records.yaml` file:
 
 ```yaml
 dns_records:
@@ -156,20 +154,22 @@ dns_records:
     content: "4.3.2.1"
 ```
 
-Will, in combination, now result in the creation of two DNS records in Cloudflare:
+---
 
-![DNS Records](dns_records.jpg)
+When running `opentofu apply`, this will result in the creation of two DNS records in Cloudflare:
 
-PS: You can query the records using `nslookup` or `dig`, they exist.
+![DNS Records](/images/posts/2/dns_records.jpg)
+
+PS: You can query the records using `nslookup` or `dig` - they exist.
 
 ---
 
-Others required files can be found in the sample [Git Repository](https://github.com/philmph/Blog-Resources/tree/main/posts/20250509_opentofu-3-yaml).
+Others required files (`providers.tf`, `terraform.tf`, `variables.tf`) can be found in the Blog-Resources Git Repository linked in the References.
 
-## Closing
+## 🔚 Closing
 
-Thanks you so much for stopping by and I hope to see you back for part two where we dive into schema creation and validation using OpenTofu.
+Thanks so much for stopping by! I hope to see you back for part two, where we dive into schema creation and validation using OpenTofu.
 
-## References
+## 📚 References
 
-- [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250509_opentofu-3-yaml)
+- [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250512_opentofu-3-yaml)
