@@ -1,6 +1,6 @@
 ---
 date: "2025-05-12T19:00:00+02:00"
-modified: "2025-05-12T19:00:00+02:00"
+modified: "2025-05-14T17:28:00+01:00"
 
 draft: false
 
@@ -22,7 +22,7 @@ This post is part one of a two-part series. In this one, I'll show how to use YA
 - [OpenTofu](https://opentofu.org/docs/intro/install/) installed
 - A [Cloudflare](https://www.cloudflare.com/) account with an existing DNS zone
 
-## 📥 Why YAML in OpenTofu?
+## 🎯 Objective
 
 We'll see how to use `.yaml` files instead of `locals` or `variable` definitions with `.tfvars` files to allow YAML-based, Git-tracked configuration. I've found this useful when working with modules that deploy lots of similar `resource` definitions with different values for their parameters (e.g., DNS records).
 
@@ -45,7 +45,7 @@ However, without YAML schema validation (which is covered in part two), there ar
 
 ## 🛠️ Using YAML in OpenTofu
 
-To use YAML-based files as configuration, we'll be using the built-in functions [`file`](https://opentofu.org/docs/language/functions/file/) and [`yamldecode`](https://opentofu.org/docs/language/functions/yamldecode/).
+To use `.yaml` files as configuration, we'll rely on the built-in functions [`file`](https://opentofu.org/docs/language/functions/file/) and [`yamldecode`](https://opentofu.org/docs/language/functions/yamldecode/).
 
 ---
 
@@ -164,7 +164,7 @@ PS: You can query the records using `nslookup` or `dig` - they exist.
 
 ---
 
-Others required files (`providers.tf`, `terraform.tf`, `variables.tf`) can be found in the Blog-Resources Git Repository linked in the References.
+Other required files (`providers.tf`, `terraform.tf`, `variables.tf`) can be found in the Blog-Resources Git Repository linked in the References.
 
 ## 🔚 Closing
 
