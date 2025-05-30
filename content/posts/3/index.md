@@ -1,10 +1,10 @@
 ---
-date: "2025-05-11T18:30:38+02:00" # TODO
-modified: "2025-05-11T18:30:38+02:00" # TODO
+date: "2025-05-30T16:13:00+02:00"
+modified: "2025-05-30T16:13:00+02:00"
 
-draft: true
+draft: false
 
-summary: "Creating and validating YAML schema with OpenTofu" # TODO
+summary: "Creating and validating a YAML schema with OpenTofu"
 title: "OpenTofu YAML Schema Validation"
 
 params:
