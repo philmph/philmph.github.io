@@ -47,6 +47,7 @@ Unlike in part 1, we can now:
 ### Drawbacks
 
 - Adds complexity by introducing a sub-module structure
+- The YAML schema definition is not automatically added as `variable` documentation by `terraform-docs`
 
 ## 🛠️ Using YAML in OpenTofu
 
