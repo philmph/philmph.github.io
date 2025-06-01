@@ -1,6 +1,6 @@
 ---
 date: "2025-05-12T19:00:00+02:00"
-modified: "2025-06-01T14:43:00+02:00"
+modified: "2025-06-01T16:02:00+02:00"
 
 draft: false
 
@@ -34,9 +34,9 @@ The sample shows how to create [Cloudflare](https://www.cloudflare.com/) based D
 
 The main benefits I've seen from this approach:
 
-- YAML is well-known, easy to read and write
 - Works well with automation toolchains
-- Adds an abstraction layer and enables users to _just write YAML_
+- YAML is well-known, easy to read and write
+- Adds an abstraction layer, allowing non-OpenTofu users can _just write YAML_
 
 ### Drawbacks
 
