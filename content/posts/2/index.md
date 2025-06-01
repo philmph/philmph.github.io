@@ -1,6 +1,6 @@
 ---
 date: "2025-05-12T19:00:00+02:00"
-modified: "2025-05-14T17:28:00+01:00"
+modified: "2025-06-01T12:48:00+02:00"
 
 draft: false
 
@@ -16,6 +16,8 @@ tags: ["beginner", "opentofu", "terraform", "yaml"]
 ## 🧭 Before we begin
 
 This post is part one of a two-part series. In this one, I'll show how to use YAML configurations in OpenTofu through a simple example. The second part will cover how to define and validate a YAML schema.
+
+Part two can be found at [OpenTofu YAML Schema Validation](/posts/3/).
 
 ### Prerequisites
 
@@ -173,3 +175,4 @@ Thanks so much for stopping by! I hope to see you back for part two, where we di
 ## 📚 References
 
 - [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250512_opentofu-3-yaml)
+- [Part Two (OpenTofu YAML Schema Validation)](/posts/3/)
