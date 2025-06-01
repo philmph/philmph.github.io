@@ -15,39 +15,38 @@ tags: ["intermediate", "deep-dive", "opentofu", "terraform", "yaml"]
 
 ## 🧭 Before we begin
 
-This post is part two of a two-part series. Here, I'll show how to use OpenTofu modules to define a YAML schema and validate configuration against it.
+This post is part two of a two-part series. This time, I'll show how to use OpenTofu modules to define a YAML schema and validate configuration against it.
 
-Part 1/2 can be found at [OpenTofu ❤️ YAML Configuration](/posts/2/).
+Part 1 of 2 can be found at [OpenTofu ❤️ YAML Configuration](/posts/2/).
 
 ### Prerequisites
 
+Same setup as in part 1:
+
 - [OpenTofu](https://opentofu.org/docs/intro/install/) installed
 - A [Cloudflare](https://www.cloudflare.com/) account with an existing DNS zone
+
+Additionally:
+
 - Understanding how to use `.yaml` files as configuration source
 
 ## 🎯 Objective
 
-TODO Update
+We will define a YAML schema to enforce that configuration files follow a specific structure. This helps prevent anyone from adding structurally invalid inputs. It does not prevent incorrect values - though we can now also make use of `variable` based `default` values and `validation` blocks.
 
-A YAML schema will be defined to enforce configuration files to adhere to the specified content structure. This will prevent everyone from adding **structurally** wrong configuration inputs. It does not prevent wrong values (while we can now also utilize `variable` based `default` values and `validation` blocks).
-
-We will reuse the file baseline established in part 1/2 and add logic on top to achieve that. Therefore, we will again create [Cloudflare](https://www.cloudflare.com/) based DNS records.
+We'll reuse the file baseline established in part 1 and add logic on top of it. As before, we'll create [Cloudflare](https://www.cloudflare.com/) based DNS records.
 
 ### Benefits
 
-TODO Update
+Unlike in part 1, we can now:
 
-Unlike in part 1/1, we can now
-
-- Add built-in features from `variable` definitions when using YAML configurations
-  - Allows usage of `default` and `optional(...)` in `object`
-  - Allows usage of `validation` blocks
+- Use built-in features from `variable` definitions when importing YAML configurations
+  - Support `default` values and the `optional(...)` type in `object` definitions
+  - Add `validation` blocks to enforce value rules
 
 ### Drawbacks
 
-TODO Update
-
-- Adds code complexity by adding a sub-module structure
+- Adds complexity by introducing a sub-module structure
 
 ## 🛠️ Using YAML in OpenTofu
 
