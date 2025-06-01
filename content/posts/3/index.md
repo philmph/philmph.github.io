@@ -50,15 +50,27 @@ Unlike in part 1, we can now:
 
 ## 🛠️ Using YAML in OpenTofu
 
-TODO Updates
-
-Utilizing modules with a flat layout not following the default pathing modules/ ...
+To add a YAML schema definition, we'll simply make use of OpenTofu [`modules`](https://opentofu.org/docs/language/modules/). It's the easiest way while also sticking to built-in functionality that's easy for everyone to understand (compared to complex `lookup` and `merge` loops).
 
 ---
 
-Layout
+What the updated folder structure looks like:
 
-TODO
+```plaintext
+.
+├── configuration
+│   └── dns_records.yaml
+├── yaml-validation
+│   └── dns-records
+│       └── main.tf
+├── main.tf
+├── providers.tf
+├── terraform.tf
+├── variables.tf
+└── yaml-validation.tf
+```
+
+It's worth pointing out that I'm not usual default conventions for this addition (e.g. only a single `main.tf` file in the sub-module `dns-records`). The YAML configuration import handling has been moved from `locals.tf` into the `yaml-validation.tf` file. In my opinion, this is a clean split that keeps the root module and YAML handling `locals` logic separate.
 
 ---
 
