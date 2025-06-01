@@ -105,6 +105,41 @@ I've introduced a minor logic change by using [`fileset`](https://opentofu.org/d
 
 The `module` call uses the new single file `main.tf` sub-module in `yaml-validation/dns-records` as the source. The value of the decoded YAML configuration is passed as the `input` variable.
 
+---
+
+The YAML schema logic in the `dns_records` sub-module's `main.tf` is simply a `variable` named `input` and an `output` named `output`:
+
+```terraform
+variable "input" {
+  description = "dns_records schema validation"
+  type = object({
+    dns_records = list(
+      object({
+        name    = string
+        type    = optional(string, "A")
+        content = string
+      })
+    )
+  })
+
+  validation {
+    condition = alltrue([
+      for record in var.input.dns_records : can(regex("^([a-z0-9\\-]+\\.)+[a-z]+$", record.name))
+    ])
+    error_message = "All DNS record names must be valid domain names."
+  }
+
+  # Other useful validations...
+}
+
+output "output" {
+  value       = var.input
+  description = "Schema validated dns_records"
+}
+```
+
+I've added both an `optional(...)` type to the `object` definition and a `validation` block. This means the `type` parameter is no longer required and the `name` parameter must be a valid DNS domain name (without the trailing `.` 😉).
+
 Note that for the YAML validation sub-modules, I like to always name the `variable` `input` and the `output` `output`. These sub-modules don't have any other logic.
 
 ---
