@@ -75,11 +75,37 @@ It's worth pointing out that I'm not usual default conventions for this addition
 
 ---
 
-`yaml-validation.tf`
+The logic previously found in `locals.tf` is now located in `yaml-validation.tf` and some additions have been made:
 
----
+```terraform
+locals {
+  # Root folder where all configuration files are located
+  configuration_path = "${path.root}/configuration"
 
-"module" `main.tf`
+  # Load all yaml configuration files
+  yaml_configurations = { for i, o in fileset(local.configuration_path, "**/*.yaml") :
+    o => yamldecode(file("${local.configuration_path}/${o}"))
+  }
+
+  # Valid
+  configuration_name_dns_records = "dns_records.yaml"
+
+  # TRYME: Will throw an error
+  # configuration_name_dns_records = "dns_records_with_error.yaml"
+}
+
+module "yaml_validation_dns_records" {
+  source = "./yaml-validation/dns-records"
+
+  input = local.yaml_configurations[local.configuration_name_dns_records]
+}
+```
+
+I've introduced a minor logic change by using [`fileset`](https://opentofu.org/docs/language/functions/fileset/) to filter all `**/*.yaml` files. This results in an `object` where the file name is the key (e.g. `dns-records.yaml`) and the decoded YAML configuration is the value.
+
+The `module` call uses the new single file `main.tf` sub-module in `yaml-validation/dns-records` as the source. The value of the decoded YAML configuration is passed as the `input` variable.
+
+Note that for the YAML validation sub-modules, I like to always name the `variable` `input` and the `output` `output`. These sub-modules don't have any other logic.
 
 ---
 
