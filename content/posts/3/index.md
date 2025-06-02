@@ -150,7 +150,7 @@ Note that for the YAML validation sub-modules, I like to always name the `variab
 
 ---
 
-### Running OpenTofu
+### Applying the Configuration
 
 The following YAML configuration file has been added at `configuration/dns_records.yaml` and contains:
 
@@ -222,9 +222,9 @@ Content of the `output` after passing through the `yaml_validation_dns_records` 
 
 ---
 
-### Conflicting Inputs
+### Let's break it
 
-The repository and show code above also has a line to toggle which will enable inputs with errors:
+The repository includes a line you can uncomment to switch to the alternative input file `dns_records_with_errors.yaml` with errors:
 
 ```terraform
 # TRYME: Will throw an error
@@ -249,7 +249,7 @@ dns_records:
 
 ---
 
-When running with this file, OpenTofu will now complain that `content` is required. This is enforced by the `variable` `type` definition (YAML schema):
+When running with this file, OpenTofu will complain that `content` is required for `element 1`. This is enforced by the `type` definition in the `input` variable:
 
 ```bash
 ~ tofu plan
@@ -265,7 +265,7 @@ When running with this file, OpenTofu will now complain that `content` is requir
 
 ---
 
-After fixing the first error, it showcases the `validation` block is utilized to not allow anything else but lowercase letters (regex `[a-z]+$`) for the last part of `name`:
+After fixing the first error, the `validation` block takes over and OpenTofu will complain again. That's because it doesn't allow anything other than lowercase letters (per regex `[a-z]+$`) for the final segment of `name`:
 
 ```bash
 ~ tofu plan
@@ -287,19 +287,19 @@ After fixing the first error, it showcases the `validation` block is utilized to
 
 ### Tight Coupling
 
-I've considered creating a `yaml-validation` sub-module which itself has another layer of sub-modules e.g. `dns-records`. This felt very cumberstone because it's inputs are tightly coupled to a root module.
+I've considered creating a `yaml-validation` sub-module which itself has another layer of sub-modules e.g. `dns-records`. This felt very cumbersome and wrong.
 
-In my opinion, the root module should always handle the gathering of configuration data and helper modules like `yaml-validation/dns-records` should validate the input. If a sub-module takes care of the gathering, it will just add hardcoded code and therefore complexity because it is tightly bound to it's root module.
+In my opinion, the root module should always handle the gathering of configuration data and helper modules like `yaml-validation/dns-records` should validate the input. If a sub-module handles configuration gathering, it introduces hardcoded code and therefore complexity because it's tightly bound to its root module.
 
-Called modules by the root module deploying infrastructure (not the `yaml-validation` sub-modules) should not verify our YAML schema. I think this is an anti-pattern because it would reduce the re-usability of modules and forces them into our YAML schema.
+Called modules by the root module deploying infrastructure (not the `yaml-validation` sub-modules) should not verify our YAML schema. I think this is an anti-pattern because it would reduce the reusability of modules and forces them into our YAML schema.
 
 ### Multi File vs. `list` in Single File
 
-It's possible to use multiple YAML configuration files instead of adding a `list`. For DNS records, I think this would've been an overkill but for use-cases where one item is for example 15-20 lines long this can enhance readability.
+It's possible to use multiple YAML configuration files instead of adding a `list`. For DNS records, I think this would've been overkill but for use-cases where a single item is, for example, 15-20 lines long, it can enhance readability.
 
 ## 🔚 Closing
 
-Thanks once again for stoping by! I am not sure yet what will be next but I already have some ideas lined up 😄.
+Thanks once again for stopping by! I am not sure yet what will be next but I do have some ideas lined up 😄.
 
 ## 📚 References
 
