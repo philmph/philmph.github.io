@@ -1,11 +1,11 @@
 ---
-date: "2025-06-01T12:00:00+02:00" # TODO
-modified: "2025-06-01T12:00:00+02:00" # TODO
+date: "2025-06-02T21:30:00+02:00"
+modified: "2025-06-02T21:30:00+02:00"
 
 draft: false
 
 summary: "Defining a YAML schema and validating configuration against it"
-title: "OpenTofu 🧪 YAML Schema & Validation"
+title: "OpenTofu 🧬 YAML Schema & Validation"
 
 params:
   author: "Philipp Maier"
@@ -32,7 +32,7 @@ Additionally:
 
 ## 🎯 Objective
 
-We will define a YAML schema to enforce that configuration files follow a specific structure. This helps prevent anyone from adding structurally invalid inputs. It does not prevent incorrect values - though we can now also make use of `variable` based `default` values and `validation` blocks.
+We will define a YAML schema to enforce that configuration files follow a specific structure. This helps prevent structurally invalid inputs. It does not prevent incorrect values - though we can now also make use of `variable` based `default` values and `validation` blocks.
 
 We'll reuse the file baseline established in part one and add logic on top of it. As before, we'll create [Cloudflare](https://www.cloudflare.com/) based DNS records.
 
@@ -51,7 +51,7 @@ Unlike in part one, we can now:
 
 ## 🛠️ Creating the YAML Schema and validating Configurations
 
-To add a YAML schema definition, we'll simply make use of OpenTofu [`modules`](https://opentofu.org/docs/language/modules/). It's a simple solution that stays within built-in functionality and avoids `lookup` and `merge` shenanigans.
+To add a YAML schema definition, we'll simply make use of OpenTofu [modules](https://opentofu.org/docs/language/modules/). It's a simple solution that stays within built-in functionality and avoids `lookup` and `merge` shenanigans.
 
 ---
 
@@ -73,7 +73,7 @@ What the updated folder structure looks like:
 
 ---
 
-It's worth pointing out that I'm not usual default conventions for this addition (e.g. only a single `main.tf` file in the sub-module `dns-records`). The YAML configuration import handling has been moved from `locals.tf` into the `yaml-validation.tf` file. In my opinion, this is a clean split that keeps the root module and YAML handling `locals` logic separate.
+It's worth pointing out that I'm not using default conventions for this addition (e.g. only a single `main.tf` file in the sub-module `dns-records`). The YAML configuration import handling has been moved from `locals.tf` into the `yaml-validation.tf` file. In my opinion, this is a clean split that keeps the root module and YAML handling `locals` logic separate.
 
 ---
 
@@ -105,13 +105,13 @@ module "yaml_validation_dns_records" {
 
 ---
 
-I've introduced a minor logic change by using [`fileset`](https://opentofu.org/docs/language/functions/fileset/) to filter all `**/*.yaml` files. This results in an `object` where the file name is the key (e.g. `dns-records.yaml`) and the decoded YAML configuration is the value.
+I've introduced a minor logic change by using [`fileset`](https://opentofu.org/docs/language/functions/fileset/) to filter all `**/*.yaml` files. This results in an `object` where each file name (e.g. `dns_records.yaml`) is the key and the decoded YAML content is the value.
 
 The `module` call uses the new single file `main.tf` sub-module in `yaml-validation/dns-records` as the source. The value of the decoded YAML configuration is passed as the `input` variable.
 
 ---
 
-The YAML schema logic in the `dns_records` sub-module's `main.tf` is simply a `variable` named `input` and an `output` named `output`:
+The YAML schema logic in the `dns-records` sub-module's `main.tf` is simply a `variable` named `input` and an `output` named `output`:
 
 ```terraform
 variable "input" {
@@ -249,7 +249,7 @@ dns_records:
 
 ---
 
-When running with this file, OpenTofu will complain that `content` is required for `element 1`. This is enforced by the `type` definition in the `input` variable:
+When running with this file, OpenTofu will complain that `content` is required for element 1. This is enforced by the `type` definition in the `input` variable:
 
 ```bash
 ~ tofu plan
@@ -291,7 +291,7 @@ I've considered creating a `yaml-validation` sub-module which itself has another
 
 In my opinion, the root module should always handle the gathering of configuration data and helper modules like `yaml-validation/dns-records` should validate the input. If a sub-module handles configuration gathering, it introduces hardcoded code and therefore complexity because it's tightly bound to its root module.
 
-Called modules by the root module deploying infrastructure (not the `yaml-validation` sub-modules) should not verify our YAML schema. I think this is an anti-pattern because it would reduce the reusability of modules and forces them into our YAML schema.
+Modules called by the root module (not the `yaml-validation` sub-modules) should not verify our YAML schema. I think this is an anti-pattern because it would reduce the reusability of modules and forces them into our YAML schema.
 
 ### 🗂 Multi File vs. `list` in Single File
 
@@ -299,7 +299,7 @@ It's possible to use multiple YAML configuration files instead of adding a `list
 
 ## 🔚 Closing
 
-Thanks once again for stopping by! I am not sure yet what will be next but I do have some ideas lined up 😄.
+Thanks once again for stopping by! I am not sure yet what will be next, but I do have some ideas lined up 😄.
 
 ## 📚 References
 
