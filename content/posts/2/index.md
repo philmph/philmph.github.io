@@ -1,6 +1,6 @@
 ---
 date: "2025-05-12T19:00:00+02:00"
-modified: "2025-06-01T21:12:00+02:00"
+modified: "2025-06-02T19:06:00+02:00"
 
 draft: false
 
@@ -76,10 +76,10 @@ locals {
 }
 ```
 
-After adding this, `local.yaml_data` will contain the imported and decoded YAML content from the `configuration/dns_records.yaml` file. We can explore this using `opentofu console` together with the interactive function [`type`](https://opentofu.org/docs/language/functions/type/):
+After adding this, `local.yaml_data` will contain the imported and decoded YAML content from the `configuration/dns_records.yaml` file. We can explore this using `tofu console` together with the interactive function [`type`](https://opentofu.org/docs/language/functions/type/):
 
 ```bash
-> opentofu console
+~ tofu console
 > type(local.yaml_data)
 object({
     dns_records: tuple([
@@ -126,7 +126,7 @@ First, we transform the list from `local.yaml_data.dns_records` into an object t
 Here's how that looks:
 
 ```bash
-> opentofu console
+~ tofu console
 > type(local.dns_records_from_yaml)
 object({
     test1.pmaier.at: object({
@@ -158,7 +158,7 @@ dns_records:
 
 ---
 
-When running `opentofu apply`, this will result in the creation of two DNS records in Cloudflare:
+When running `tofu apply`, this will result in the creation of two DNS records in Cloudflare:
 
 ![DNS Records](dns_records.jpg)
 
