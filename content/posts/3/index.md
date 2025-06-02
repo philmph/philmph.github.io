@@ -101,6 +101,8 @@ module "yaml_validation_dns_records" {
 }
 ```
 
+---
+
 I've introduced a minor logic change by using [`fileset`](https://opentofu.org/docs/language/functions/fileset/) to filter all `**/*.yaml` files. This results in an `object` where the file name is the key (e.g. `dns-records.yaml`) and the decoded YAML configuration is the value.
 
 The `module` call uses the new single file `main.tf` sub-module in `yaml-validation/dns-records` as the source. The value of the decoded YAML configuration is passed as the `input` variable.
@@ -138,11 +140,14 @@ output "output" {
 }
 ```
 
+---
+
 I've added both an `optional(...)` type to the `object` definition and a `validation` block. This means the `type` parameter is no longer required and the `name` parameter must be a valid DNS domain name (without the trailing `.` 😉).
 
 Note that for the YAML validation sub-modules, I like to always name the `variable` `input` and the `output` `output`. These sub-modules don't have any other logic.
 
-### Execution
+---
+
 
 I've added a configuration file at `configuration/dns_records.yaml` which contains the following records:
 
