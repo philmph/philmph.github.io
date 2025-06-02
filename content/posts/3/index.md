@@ -21,7 +21,7 @@ Part 1 of 2 can be found at [OpenTofu ❤️ YAML Configuration](/posts/2/).
 
 ### Prerequisites
 
-Same setup as in part 1:
+Same setup as in part one:
 
 - [OpenTofu](https://opentofu.org/docs/intro/install/) installed
 - A [Cloudflare](https://www.cloudflare.com/) account with an existing DNS zone
@@ -34,11 +34,11 @@ Additionally:
 
 We will define a YAML schema to enforce that configuration files follow a specific structure. This helps prevent anyone from adding structurally invalid inputs. It does not prevent incorrect values - though we can now also make use of `variable` based `default` values and `validation` blocks.
 
-We'll reuse the file baseline established in part 1 and add logic on top of it. As before, we'll create [Cloudflare](https://www.cloudflare.com/) based DNS records.
+We'll reuse the file baseline established in part one and add logic on top of it. As before, we'll create [Cloudflare](https://www.cloudflare.com/) based DNS records.
 
 ### Benefits
 
-Unlike in part 1, we can now:
+Unlike in part one, we can now:
 
 - Use built-in features from `variable` definitions when importing YAML configurations
   - Support `default` values and the `optional(...)` type in `object` definitions
