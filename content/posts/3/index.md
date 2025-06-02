@@ -49,9 +49,9 @@ Unlike in part one, we can now:
 - Adds complexity by introducing a sub-module structure
 - The YAML schema definition is not automatically added as `variable` documentation by `terraform-docs`
 
-## 🛠️ Using YAML in OpenTofu
+## 🛠️ Creating the YAML Schema and validating Configurations
 
-To add a YAML schema definition, we'll simply make use of OpenTofu [`modules`](https://opentofu.org/docs/language/modules/). It's the easiest way while also sticking to built-in functionality that's easy for everyone to understand (compared to complex `lookup` and `merge` loops).
+To add a YAML schema definition, we'll simply make use of OpenTofu [`modules`](https://opentofu.org/docs/language/modules/). It's a simple solution that stays within built-in functionality and avoids `lookup` and `merge` shenanigans.
 
 ---
 
