@@ -71,6 +71,8 @@ What the updated folder structure looks like:
 └── yaml-validation.tf
 ```
 
+---
+
 It's worth pointing out that I'm not usual default conventions for this addition (e.g. only a single `main.tf` file in the sub-module `dns-records`). The YAML configuration import handling has been moved from `locals.tf` into the `yaml-validation.tf` file. In my opinion, this is a clean split that keeps the root module and YAML handling `locals` logic separate.
 
 ---
