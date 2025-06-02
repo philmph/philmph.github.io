@@ -19,7 +19,7 @@ This post is part two of a two-part series. This time, I'll show how to use Open
 
 Part 1 of 2 can be found at [OpenTofu ❤️ YAML Configuration](/posts/2/).
 
-### Prerequisites
+### 📋 Prerequisites
 
 Same setup as in part one:
 
@@ -36,7 +36,7 @@ We will define a YAML schema to enforce that configuration files follow a specif
 
 We'll reuse the file baseline established in part one and add logic on top of it. As before, we'll create [Cloudflare](https://www.cloudflare.com/) based DNS records.
 
-### Benefits
+### 📈 Benefits
 
 Unlike in part one, we can now:
 
@@ -44,7 +44,7 @@ Unlike in part one, we can now:
   - Support `default` values and the `optional(...)` type in `object` definitions
   - Add `validation` blocks to enforce value rules
 
-### Drawbacks
+### 📉 Drawbacks
 
 - Adds complexity by introducing a sub-module structure
 - The YAML schema definition is not automatically added as `variable` documentation by `terraform-docs`
@@ -150,7 +150,7 @@ Note that for the YAML validation sub-modules, I like to always name the `variab
 
 ---
 
-### Applying the Configuration
+### ▶️ Applying the Configuration
 
 The following YAML configuration file has been added at `configuration/dns_records.yaml` and contains:
 
@@ -222,7 +222,7 @@ Content of the `output` after passing through the `yaml_validation_dns_records` 
 
 ---
 
-### Let's break it
+### 🔥 Let's break it
 
 The repository includes a line you can uncomment to switch to the alternative input file `dns_records_with_errors.yaml` with errors:
 
@@ -285,7 +285,7 @@ After fixing the first error, the `validation` block takes over and OpenTofu wil
 
 ## 🧠 Additional Thoughts
 
-### Tight Coupling
+### 🪢 Tight Coupling
 
 I've considered creating a `yaml-validation` sub-module which itself has another layer of sub-modules e.g. `dns-records`. This felt very cumbersome and wrong.
 
@@ -293,7 +293,7 @@ In my opinion, the root module should always handle the gathering of configurati
 
 Called modules by the root module deploying infrastructure (not the `yaml-validation` sub-modules) should not verify our YAML schema. I think this is an anti-pattern because it would reduce the reusability of modules and forces them into our YAML schema.
 
-### Multi File vs. `list` in Single File
+### 🗂 Multi File vs. `list` in Single File
 
 It's possible to use multiple YAML configuration files instead of adding a `list`. For DNS records, I think this would've been overkill but for use-cases where a single item is, for example, 15-20 lines long, it can enhance readability.
 
