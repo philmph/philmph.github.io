@@ -1,6 +1,6 @@
 ---
 date: "2025-05-12T19:00:00+02:00"
-modified: "2025-06-02T19:06:00+02:00"
+modified: "2025-06-02T20:44:00+02:00"
 
 draft: false
 
@@ -19,7 +19,7 @@ This post is part one of a two-part series. In this one, I'll show how to use YA
 
 Part 2 of 2 can be found at [OpenTofu 🧪 YAML Schema & Validation](/posts/3/).
 
-### Prerequisites
+### 📋 Prerequisites
 
 - [OpenTofu](https://opentofu.org/docs/intro/install/) installed
 - A [Cloudflare](https://www.cloudflare.com/) account with an existing DNS zone
@@ -30,7 +30,7 @@ We'll see how to use `.yaml` files instead of `locals` or `variable` definitions
 
 The sample shows how to create [Cloudflare](https://www.cloudflare.com/) based DNS records.
 
-### Benefits
+### 📈 Benefits
 
 The main benefits I've seen from this approach:
 
@@ -38,7 +38,7 @@ The main benefits I've seen from this approach:
 - YAML is well-known, easy to read and write
 - Adds an abstraction layer, allowing non-OpenTofu users can _just write YAML_
 
-### Drawbacks
+### 📉 Drawbacks
 
 However, without YAML schema validation (which is covered in part two), there are some downsides to consider:
 
