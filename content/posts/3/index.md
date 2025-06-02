@@ -148,8 +148,9 @@ Note that for the YAML validation sub-modules, I like to always name the `variab
 
 ---
 
+### Running OpenTofu
 
-I've added a configuration file at `configuration/dns_records.yaml` which contains the following records:
+The following YAML configuration file has been added at `configuration/dns_records.yaml` and contains:
 
 ```yaml
 ---
@@ -157,19 +158,18 @@ dns_records:
   - name: test3.pmaier.at
     # type: A
     content: "1.2.3.4"
+
   - name: test4.pmaier.at
     # type: A
     content: "4.3.2.1"
-    ommited: "Really?"
+    omitted: "Really?"
 ```
 
-Now, providing the `type` is no longer mandatory, because we've defined a default for the parameter with `type = optional(string, "A")`.
+---
 
-Just like with any complex `type` definition including a `object`, it's possible to provide any additional keys. Important to know is, that after the module call, it's `output` will not contain additional keys:
+This time, providing the parameter `type` is no longer mandatory because we've defined a default for it using `type = optional(string, "A")`.
 
-With complex `object` input `variable` definitions, additional keys can be added as long as the required ones are satisfied. It's importan to know, that they will be ommited after the `yaml-validation` sub-module verified the configuration files:
-
-This is standard behaviour which is the same for any other `object` input type variables
+When using `object` definitions in the `type` of a `variable`, additional keys can be added as long as the required ones are satisfied. However, they will be omitted after passing through the `yaml_validation_dns_records` module. This is standard behavior unrelated to YAML configurations.
 
 ---
 
@@ -187,7 +187,7 @@ Content of the decoded YAML configuration:
     {
       "content" = "4.3.2.1"
       "name" = "test4.pmaier.at"
-      "ommited" = "Really?"
+      "omitted" = "Really?"
     },
   ]
 }
@@ -195,7 +195,7 @@ Content of the decoded YAML configuration:
 
 ---
 
-Content of the `output` after passing through the module `yaml_validation_dns_records`:
+Content of the `output` after passing through the `yaml_validation_dns_records` module:
 
 ```bash
 ~ tofu console
@@ -217,6 +217,8 @@ Content of the `output` after passing through the module `yaml_validation_dns_re
   }
 }
 ```
+
+---
 
 ### Conflicting Inputs
 
