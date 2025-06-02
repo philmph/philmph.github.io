@@ -142,33 +142,12 @@ I've added both an `optional(...)` type to the `object` definition and a `valida
 
 Note that for the YAML validation sub-modules, I like to always name the `variable` `input` and the `output` `output`. These sub-modules don't have any other logic.
 
----
+### Execution
 
-Errorcase (validation)
-
----
-
-Successcase + implementation
-
-## 🧠 Additional Thoughts
-
-TODO Add thoughts about
-
-### Layout
-
-### Tight Coupling
-
-I've considered creating a `yaml-validation` sub-module which itself has another layer of sub-modules e.g. `dns-records`. This felt very cumberstone because inputs are tightly coupled to a root module.
-
-In my opinion, the root module should always handle the gathering of configuration data and helper modules like `yaml-validation/dns-records` should validate the input. If a sub-module takes care of the gathering, it will just add hardcoded code because it is bound to it's use-case. This is an anti-pattern for a module.
-
-### Structural Enforcement
-
-TODO Verify
-
-Just like with complex `object` input `variable` definitions, additional keys can be added as long as the required ones are satisfied. They will just be ommited when the `yaml-validation` sub-modules verify the configuration files:
+I've added a configuration file at `configuration/dns_records.yaml` which contains the following records:
 
 ```yaml
+---
 dns_records:
   - name: test3.pmaier.at
     # type: A
@@ -179,9 +158,21 @@ dns_records:
     ommited: "Really?"
 ```
 
+Now, providing the `type` is no longer mandatory, because we've defined a default for the parameter with `type = optional(string, "A")`.
+
+Just like with any complex `type` definition including a `object`, it's possible to provide any additional keys. Important to know is, that after the module call, it's `output` will not contain additional keys:
+
+With complex `object` input `variable` definitions, additional keys can be added as long as the required ones are satisfied. It's importan to know, that they will be ommited after the `yaml-validation` sub-module verified the configuration files:
+
+This is standard behaviour which is the same for any other `object` input type variables
+
+---
+
+Content of the decoded YAML configuration:
+
 ```bash
-> opentofu console
-> local.yaml_manifests[local.manifest_name_dns_records]
+~ tofu console
+> local.yaml_configurations[local.configuration_name_dns_records]
 {
   "dns_records" = [
     {
@@ -197,8 +188,12 @@ dns_records:
 }
 ```
 
+---
+
+Content of the `output` after passing through the module `yaml_validation_dns_records`:
+
 ```bash
-> opentofu console
+~ tofu console
 > module.yaml_validation_dns_records
 {
   "output" = {
@@ -218,46 +213,86 @@ dns_records:
 }
 ```
 
-TODO Example
+### Conflicting Inputs
 
-- Layout
-- Multi-file option e.g. Subscriptions (link Nils?)
-- Tightly coupled -> No need for overkill modularization
-- Additional keys can be added but will be "thrown away" during module call (TODO Verify)
+The repository and show code above also has a line to toggle which will enable inputs with errors:
 
-## 🔚 Closing
+```terraform
+# TRYME: Will throw an error
+# configuration_name_dns_records = "dns_records_with_error.yaml"
+```
 
-TODO Update
+---
 
-Thanks again for stoping by! I am not sure yet what will be the next follow-up. I have some ideas lined up 😄.
+The conflicting file content:
 
-## 📚 References
+```yaml
+---
+dns_records:
+  - name: test3.pmaier.at
+    # type: A
+    # content: "1.2.3.4"
 
-- [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250530_opentofu-yaml-schema-validation)
-- [Part 1/2 (OpenTofu ❤️ YAML Configuration)](/posts/2/)
+  - name: test4.pmaier.00at
+    # type: A
+    content: "1.2.3.4"
+```
 
-### KEEP
+---
+
+When running with this file, OpenTofu will now complain that `content` is required. This is enforced by the `variable` `type` definition (YAML schema):
 
 ```bash
-~/Documents/git/personal/naboo/Blog-Resources/posts/20250530_opentofu-yaml-schema-validation (post/3-add-defaults ✗) t plan
+~ tofu plan
 ╷
 │ Error: Invalid value for input variable
 │
 │   on yaml-validation.tf line 20, in module "yaml_validation_dns_records":
-│   20:   input = local.yaml_manifests[local.manifest_name_dns_records]
+│   20:   input = local.yaml_configurations[local.configuration_name_dns_records]
 │
 │ The given value is not suitable for module.yaml_validation_dns_records.var.input declared at yaml-validation/dns_records/main.tf:1,1-17: attribute "dns_records": element 1: attribute "content" is required.
 ╵
-~/Documents/git/personal/naboo/Blog-Resources/posts/20250530_opentofu-yaml-schema-validation (post/3-add-defaults ✗) t plan
+```
+
+---
+
+After fixing the first error, it showcases the `validation` block is utilized to not allow anything else but lowercase letters (regex `[a-z]+$`) for the last part of `name`:
+
+```bash
+~ tofu plan
 ╷
 │ Error: Invalid value for variable
 │
 │   on yaml-validation.tf line 20, in module "yaml_validation_dns_records":
-│   20:   input = local.yaml_manifests[local.manifest_name_dns_records]
+│   20:   input = local.yaml_configurations[local.configuration_name_dns_records]
 │     ├────────────────
 │     │ var.input.dns_records is list of object with 3 elements
 │
 │ All DNS record names must be valid domain names.
 │
 │ This was checked by the validation rule at yaml-validation/dns_records/main.tf:13,3-13.
+╵
 ```
+
+## 🧠 Additional Thoughts
+
+### Tight Coupling
+
+I've considered creating a `yaml-validation` sub-module which itself has another layer of sub-modules e.g. `dns-records`. This felt very cumberstone because it's inputs are tightly coupled to a root module.
+
+In my opinion, the root module should always handle the gathering of configuration data and helper modules like `yaml-validation/dns-records` should validate the input. If a sub-module takes care of the gathering, it will just add hardcoded code and therefore complexity because it is tightly bound to it's root module.
+
+Called modules by the root module deploying infrastructure (not the `yaml-validation` sub-modules) should not verify our YAML schema. I think this is an anti-pattern because it would reduce the re-usability of modules and forces them into our YAML schema.
+
+### Multi File vs. `list` in Single File
+
+It's possible to use multiple YAML configuration files instead of adding a `list`. For DNS records, I think this would've been an overkill but for use-cases where one item is for example 15-20 lines long this can enhance readability.
+
+## 🔚 Closing
+
+Thanks once again for stoping by! I am not sure yet what will be next but I already have some ideas lined up 😄.
+
+## 📚 References
+
+- [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250530_opentofu-yaml-schema-validation)
+- [Part 1/2 (OpenTofu ❤️ YAML Configuration)](/posts/2/)
