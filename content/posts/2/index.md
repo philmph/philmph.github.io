@@ -1,11 +1,11 @@
 ---
 date: "2025-05-12T19:00:00+02:00"
-modified: "2025-06-02T20:48:00+02:00"
+modified: "2025-06-05T19:49:00+02:00"
 
 draft: false
 
-summary: "Using YAML as configuration source"
-title: "OpenTofu ❤️ YAML Configuration"
+summary: "An alternative to `.tfvars` and `locals` by defining configuration through YAML files."
+title: "️📁 Using YAML as Input Source in OpenTofu"
 
 params:
   author: "Philipp Maier"

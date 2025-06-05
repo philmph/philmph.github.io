@@ -1,11 +1,11 @@
 ---
 date: "2025-06-02T21:30:00+02:00"
-modified: "2025-06-02T21:30:00+02:00"
+modified: "2025-06-05T19:49:00+02:00"
 
 draft: false
 
-summary: "Defining a YAML schema and validating configuration against it"
-title: "OpenTofu 🧬 YAML Schema & Validation"
+summary: 'My approach to creating a YAML schema and validating configurations using "micro-modules".'
+title: "🧬 YAML Schema Validation in OpenTofu"
 
 params:
   author: "Philipp Maier"
