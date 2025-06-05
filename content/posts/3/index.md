@@ -1,11 +1,11 @@
 ---
 date: "2025-06-02T21:30:00+02:00"
-modified: "2025-06-02T21:30:00+02:00"
+modified: "2025-06-05T19:50:00+02:00"
 
 draft: false
 
-summary: "Defining a YAML schema and validating configuration against it"
-title: "OpenTofu 🧬 YAML Schema & Validation"
+summary: 'My approach to creating a YAML schema and validating configurations using "micro-modules".'
+title: "🧬 YAML Schema Validation in OpenTofu"
 
 params:
   author: "Philipp Maier"
@@ -17,7 +17,7 @@ tags: ["intermediate", "deep-dive", "opentofu", "terraform", "yaml"]
 
 This post is part two of a two-part series. This time, I'll show how to use OpenTofu modules to define a YAML schema and validate configuration against it.
 
-Part 1 of 2 can be found at [OpenTofu ❤️ YAML Configuration](/posts/2/).
+Part 1 of 2 can be found at [📁 Using YAML as Input Source in OpenTofu](/posts/2/).
 
 ### 📋 Prerequisites
 
@@ -304,4 +304,4 @@ Thanks once again for stopping by! I am not sure yet what will be next, but I do
 ## 📚 References
 
 - [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250530_opentofu-yaml-schema-validation)
-- [Part 1/2 (OpenTofu ❤️ YAML Configuration)](/posts/2/)
+- [Part 1/2 (📁 Using YAML as Input Source in OpenTofu)](/posts/2/)
