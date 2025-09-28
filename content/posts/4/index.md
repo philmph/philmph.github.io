@@ -187,6 +187,7 @@ It is important to understand that there is a huge difference in the usage of `n
 TODO: Resource omitted
 TODO: Module sendet `null` an downstream
 TODO: Looping inputs (lists) with unassigned values -> sendet `null`
+TODO: Not providing != providing `null` wie in `resource` blocks
 
 ## 📚 References
 
