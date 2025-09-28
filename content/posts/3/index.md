@@ -1,6 +1,6 @@
 ---
 date: "2025-06-02T21:30:00+02:00"
-modified: "2025-06-05T19:50:00+02:00"
+modified: "2025-09-28T19:56:00+02:00"
 
 draft: false
 
@@ -10,7 +10,7 @@ title: "🧬 YAML Schema Validation in OpenTofu"
 params:
   author: "Philipp Maier"
 categories: ["opentofu"]
-tags: ["intermediate", "deep-dive", "opentofu", "terraform", "yaml"]
+tags: ["intermediate", "opentofu", "terraform", "yaml"]
 ---
 
 ## 🧭 Before we begin
