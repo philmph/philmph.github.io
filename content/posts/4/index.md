@@ -4,8 +4,8 @@ modified: "2025-09-28T19:44:06+02:00"
 
 draft: false
 
-summary: ""
-title: "Let's explore: nullable"
+summary: "TBD"
+title: "0️⃣ Let's Explore: nullable"
 
 params:
   author: "Philipp Maier"
@@ -15,9 +15,9 @@ tags: ["intermediate", "lets-explore", "nullable", "opentofu", "terraform"]
 
 ## 🧭 Before we begin
 
-This is going to be a short one. We'll be exploring the argument `nullable` in `variable` definitions.
+In this one, we'll be exploring the argument `nullable` in `variable` blocks.
 
-My take is that `nullable` is often overlooked or even actively disregarded which can lead to unexpected results.
+My learning is that `nullable` is often overlooked or even actively disregarded. I have seen this lead to unexpected results often times while handling `nullable` is easy and takes little zero effort.
 
 ### 📋 Prerequisites
 
@@ -25,21 +25,21 @@ My take is that `nullable` is often overlooked or even actively disregarded whic
 
 Additionally:
 
-- Knowledge about authoring and consuming reusable OpenTofu modules
+- Knowledge about authoring and consuming reusable [OpenTofu "Published" Modules](https://opentofu.org/docs/language/modules/#published-modules)
 
 ## 🎯 Objective
 
-We will explore `nullable` itself and also some edge cases (which are often used but seldom known).
+We will explore `nullable` itself and look into some edge cases (which you can find in a lot of Modules).
 
-## 🛠️ The various
+## 🛠️ Let's Explore: `nullable`
 
 ### Introduction: What does `nullable` do?
 
-First off, `nullable` is an argument within the `variable` block which determines if the `variable` can be `null`. The argument defaults to `true` for both Terraform and OpenTofu. Instead of duplicating docs I'd like to point out at this point, that the [the documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) by OpenTofu is a short and precise read.
+First off, `nullable` is an argument within the `variable` block which determines if the `variable` value can be `null`. The argument defaults to `true` for both Terraform and OpenTofu. Instead of duplicating text I'd like to point out at this point, that the [the documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) by OpenTofu is a short and on point read.
 
 ### Module Setup
 
-To keep this as simple as possible we will be creating and reusing an OpenTofu module which simply has four `variables`.
+To keep this as simple as possible we will be creating and reusing an OpenTofu module which simply has four `variable` blocks:
 
 1. Not `nullable` with `default`
 2. Not `nullable` without `default`
@@ -53,16 +53,14 @@ The following folder structure is used:
 ```plaintext
 .
 ├── modules
-│   └── simple
-│       └── main.tf
-│   └── ...
+│   └── nullable
 │       └── main.tf
 └── main.tf
 ```
 
 ---
 
-In `main.tf` of the module (`modules/simple/main.tf`), we add simple logic:
+In `main.tf` of the Module (`modules/nullable/main.tf`), we add some logic:
 
 ```terraform
 variable "not_nullable_with_default" {
@@ -97,9 +95,11 @@ output "all" {
 }
 ```
 
-### Basic Usage
+---
 
-Let's now call the module using `null` as value:
+### Calling the Module
+
+Let's now call the Module using `null` as value:
 
 ```terraform
 module "basic_usage" {
@@ -116,7 +116,9 @@ output "basic_usage" {
 }
 ```
 
-This will result in an error because of the variable `not_nullable_without_default` which does not allow `null` and requires a value to be provided (no `default`).
+---
+
+This results in an error because the variable `not_nullable_without_default` does not allow `null` as value. It also requires a value to be provided (no `default`).
 
 ```bash
 ~ tofu plan
@@ -148,7 +150,7 @@ Let's fix this and observe the result:
 
 ---
 
-After fixing the value we do get a result:
+After the quick fix we get a result:
 
 ```bash
 ~ tofu plan
@@ -165,7 +167,56 @@ Changes to Outputs:
 You can apply this plan to save these new output values to the OpenTofu state, without changing any real infrastructure.
 ```
 
-But wait, does that mean that a `variable` which requires an value to be set allows `null`?! **Yes**.
+---
+
+### Case (& Gotcha) 1: Providing `null` for Modules doesn't omit
+
+> Not Nullable & with Default results in the `default` of the `variable`
+
+It is important to understand that there is a difference in the usage of `null` when consuming Modules as in comparison to direclty using `null` within `resources` blocks:
+
+---
+
+Used in `module` blocks, providing `null` sends it as value to the `variable` of the Module even though it has `nullable` set to `false`! We did this by defining `not_nullable_with_default = null`. This does **not** omit the parameter and instead uses the `default` defined by the `variable` in the Module.
+
+This is especially important to realize when looping over e.g. `list` inputs when `for_each` over a `module` block. If not handled otherwise, not assigned values also send `null` to the receiving Module.
+
+---
+
+In `resource` blocks, providing `null` as value omits the parameter (like it is not set):
+
+```terraform
+resource "azurerm_resource_group" "this" {
+  name     = "example"
+  location = null
+}
+```
+
+In this example, the value for the parameter `location` is not defined. This will lead to an error.
+
+---
+
+### 2: Not Nullable & without Default
+
+This case results in the value provided and does not accept `null`.
+
+Even though this initially generated and error, there is nothing special about this case. The consumer of the Module is forced to provide a value for the parameter.
+
+---
+
+### 3: Nullable & with Default
+
+This case results in the value provided and accepts `null`.
+
+The `variable` allows `null` and we gave it `null`. It will simply be `null`. Resources within the Module will omit the parameters where the `variable` is used.
+
+---
+
+### 4: Nullable & without Default
+
+This case results in the value provided and accepts `null`.
+
+But wait... does this mean that a `variable` which requires an value allows `null`? **Yes... `null` is a value**.
 
 A simple `variable` definition like
 
@@ -176,18 +227,11 @@ variable "name" {
 }
 ```
 
-While many `resource` definitions require names (e.g. Azure Resource Groups) this means that the consumer of the OpenTofu Module can provide `null` and a `plan` will be valid.
+per default allows `null` to be provided even though the `variable` is required. Even though is very commonly used in `resource` definitions which require names (e.g. Azure Resource Groups). This means that the consumer of the Module can provide `null` and a `plan` will be valid.
 
-Note that if a `validation` block exists, this can also prevent the usage of `null`.
+Note that a `validation` block can also prevent the usage of `null`.
 
-### `resource` vs. `module` blocks
-
-It is important to understand that there is a huge difference in the usage of `null` when consuming OpenTofu Modules as in comparison to direclty using `null` within `resources` blocks.
-
-TODO: Resource omitted
-TODO: Module sendet `null` an downstream
-TODO: Looping inputs (lists) with unassigned values -> sendet `null`
-TODO: Not providing != providing `null` wie in `resource` blocks
+Also note that **this is the default behavior!**
 
 ## 📚 References
 
