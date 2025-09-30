@@ -15,9 +15,9 @@ tags: ["intermediate", "lets-explore", "nullable", "opentofu", "terraform"]
 
 ## 🧭 Before we begin
 
-In this post, we'll be exploring the use of the **`nullable`** argument within Terraform `variable` blocks.
+In this post, we'll be exploring the use of the `nullable` argument within Terraform `variable` blocks.
 
-My point of view is that `nullable` is often overlooked or even actively disregarded. I've often seen this lead to **unexpected results**, even though handling `nullable` is simple and requires little effort.
+My point of view is that `nullable` is often overlooked or even actively disregarded. I've often seen this lead to unexpected results, even though handling `nullable` is simple and requires little effort.
 
 ### 📋 Prerequisites
 
@@ -31,26 +31,24 @@ Additionally a basic understanding of::
 
 ## 🎯 Objective
 
-We will explore the parameter **`nullable`** in `variable` blocks and look into some edge cases (which you will find in a lot of modules).
+We will explore the parameter `nullable` in `variable` blocks and look into some edge cases (which you will find in a lot of modules).
 
 ## 🛠️ Let's Explore: `nullable`
 
-### Introduction: What does `nullable` do?
+### 📝 Introduction: What does `nullable` do?
 
-The `nullable` parameter exists within the `variable` block and determines if the value of the `variable` can be `null`. The parameter defaults to `true` for both Terraform and OpenTofu. For more information, [the documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) by OpenTofu is a good read.
+The **`nullable`** argument exists within the `variable` block and determines if the value of the variable can be `null`. This argument defaults to `true` in both Terraform and OpenTofu. For more information, [the OpenTofu documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) is a good resource.
 
-### Module Setup
+### 🏗️ Repository Setup
 
-To keep this as simple as possible we will be creating and reusing an OpenTofu module which simply has four `variable` blocks:
+To keep this as simple as possible, we'll create and reuse an OpenTofu module that contains four distinct `variable` blocks:
 
-1. Not `nullable` with `default`
-2. Not `nullable` without `default`
-3. `nullable` with `default`
-4. `nullable` without `default`
+1. Not `nullable` with a `default` value
+2. Not `nullable` without a `default` value
+3. `nullable` with a `default` value
+4. `nullable` without a `default` value
 
----
-
-The following folder structure is used:
+We will use a simple folder structure to organize our example:
 
 ```plaintext
 .
@@ -62,7 +60,7 @@ The following folder structure is used:
 
 ---
 
-In `main.tf` of the module (`modules/nullable/main.tf`), we add some logic:
+In the example module's `modules/nullable/main.tf` file, we define four scenarios and output the result:
 
 ```terraform
 variable "not_nullable_with_default" {
@@ -99,13 +97,13 @@ output "all" {
 
 ---
 
-### Calling the Module
+### 🔈️ Calling the Module
 
-Let's now call the module using `null` as value:
+Now, let's call the module, explicitly setting all four input variables to `null`:
 
 ```terraform
 module "basic_usage" {
-  source = "./modules/simple"
+  source = "./modules/nullable"
 
   not_nullable_with_default    = null
   not_nullable_without_default = null
@@ -120,7 +118,7 @@ output "basic_usage" {
 
 ---
 
-This results in an error because the `variable` `not_nullable_without_default` does not allow `null` as value. It also requires a value to be provided (no `default`).
+Executing `tofu plan` results in an error because the variable `not_nullable_without_default` doesn't have a `default` value and explicitly disallows `null` as input.
 
 ```bash
 ~ tofu plan
@@ -136,7 +134,7 @@ This results in an error because the `variable` `not_nullable_without_default` d
 
 ---
 
-Let's fix this and observe the result:
+Let's resolve this by giving `not_nullable_without_default` a value of `module`:
 
 ```terraform
 ...
@@ -152,7 +150,7 @@ Let's fix this and observe the result:
 
 ---
 
-After the changes we get a result:
+After the changes we now get a result:
 
 ```bash
 ~ tofu plan
@@ -171,21 +169,21 @@ You can apply this plan to save these new output values to the OpenTofu state, w
 
 ---
 
-### 1: Not `nullable` & with `default`
+### 1️⃣ Not `nullable` & with `default`
 
-Why is this even possible? The `variable` is not `nullable`?
+**Why is this even possible?** If the `variable` is not `nullable`, shouldn't passing `null` always fail validation?
 
-It is important to recap a key information from [the documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) here:
+The answer lies in a key piece of information from [the documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values):
 
 > If `nullable` is `false` and the variable has a `default` value, then OpenTofu uses the default when a module input argument is `null`.
 
-In my own words: When `null` is used as parameter value in `module` blocks, OpenTofu sends it as input to the `variable` of the module **even when it has `nullable` set to `false`!**
+In my own words: When `null` is used as an input value in `module` blocks, OpenTofu sends it to the module's `variable` **even when that variable has `nullable` set to `false`!**
 
-This is especially important to realize when looping over e.g. `list` inputs with `for_each` in a `module` block. If not handled otherwise, not assigned values also send `null` to the receiving Module.
+This behavior is especially important to realize when looping over, for example, `list` inputs with `for_each` in a `module` block. If not handled, unassigned or missing values will also send `null` to the receiving module.
 
 ---
 
-In `resource` blocks, providing `null` as value **omits the parameter** (behaves like it is not set):
+In `resource` blocks, providing `null` as a value generally **omits the argument** (behaves like it is not set):
 
 ```terraform
 resource "azurerm_resource_group" "this" {
@@ -194,27 +192,37 @@ resource "azurerm_resource_group" "this" {
 }
 ```
 
-In this example, the value for the parameter `location` is not defined. This will lead to an error.
+is exactly the same as:
 
-### 2: Not `nullable` & without `default`
+```terraform
+resource "azurerm_resource_group" "this" {
+  name     = "example"
+}
+```
 
-Even though this initially generated and error, there is nothing special about this case. The consumer of the Module is forced to provide a value unequal to `null` for the parameter.
-
----
-
-### 3: `nullable` & with `default`
-
-The `variable` allows `null` and we assigned it `null`. It will simply be `null`.
-
-Resources within the module will omit the parameters where the `variable` is used as input.
+In the first example, the value for the `location` argument is treated like it has not been defined (just as in the second example), which will lead to an error because **`location` is a required argument** for the `azurerm_resource_group` resource.
 
 ---
 
-### 4: `nullable` & without `default`
+### 2️⃣ Not `nullable` & without `default`
 
-Wait... does this mean that a `variable` which requires an value allows `null`? **Yes... `null` is a value**.
+Even though this scenario initially caused an error, there's nothing special about it. The rule is simply that the module consumer **must** provide a value other than `null` for the argument.
 
-A simple `variable` definition like
+---
+
+### 3️⃣ `nullable` & with `default`
+
+Since the `variable` allows `null` and we assigned it `null`, its value will simply be `null`.
+
+Consequently, any resources within the module that use this `variable` as an input will **omit those arguments**.
+
+---
+
+### 4️⃣ `nullable` & without `default`
+
+Wait... does this mean a `variable` that requires a value allows `null`? **Yes... `null` is a value.**
+
+A simple `variable` definition like:
 
 ```terraform
 variable "name" {
@@ -223,13 +231,15 @@ variable "name" {
 }
 ```
 
-per default allows `null` to be provided even though the `variable` is required. Even though is very commonly used in `resource` definitions which require names (e.g. Azure Resource Groups). This means that the consumer of the Module can provide `null` and a `plan` will be valid.
+per default allows `null` to be provided, **even though the `variable` is technically required** (no `default` defined).
 
-Note that a `validation` block can also prevent the usage of `null`.
+This is commonly used for resource definitions that strictly require names (e.g., Azure Resource Groups). This means the module consumer can provide `null`, and a `plan` might initially appear valid.
 
-## The "problem" with `for_each`
+Note that a `validation` block can also prevent the use of `null`.
 
-Lets add some code to `main.tf`:
+## 💣 The "problem" with `for_each`
+
+Let's add a loop example to our root `main.tf`:
 
 ```terraform
 # Loop example
@@ -260,7 +270,7 @@ output "loop" {
 
 ---
 
-`terraform.tfvars`:
+And define our input map in `terraform.tfvars`:
 
 ```hcl
 loop = {
@@ -279,9 +289,9 @@ loop = {
 
 ---
 
-The interesting one is now the input `two`. The "user" did not provide values except for the one which is required (`null` not allwoed) exactly the same as actively calling the module with `null` (as shown above).
+The interesting input is now key `"two"`. The "user" didn't provide values for the non-required attributes. This absence of a value inside the object, combined with the use of `optional` in the object type definition, is **exactly the same as actively calling the module with `null`**.
 
-Here we will be sending `null` for not provided values to the module:
+Therefore, we'll be sending `null` for all unprovided values to the module, resulting in the following planned output for instance `"two"`:
 
 ```bash
 + two = {
@@ -294,23 +304,31 @@ Here we will be sending `null` for not provided values to the module:
   }
 ```
 
-If the module doesn't handle this it could break the run.
+Takeaway: If the module doesn't handle `null` properly, this could lead to unexpected errors.
 
-## My Usage Pattern
+## 💭 My Usage Pattern
 
-For advanced checks `validation` blocks is the right choice.
+For advanced checks on variable content (like format or length), the **`validation`** block is the right choice.
 
-Otherwise, my key thoughts are two:
+Otherwise, my key thoughts narrow down to two questions:
 
-- Do my `resource` blocks allow ommiting a variable input?
+---
 
-An `description` might be an optional input to a `resource` while `name` is likely always mandatory and not allowed to be omitted.
+1. Do my `resource` blocks allow **omitting** a variable input?
 
-- Do I want to always assign the `default` if the variable is not provided?
+A `description` might be an optional argument to a `resource`, while `name` is likely always mandatory and shouldn't be omitted. (This dictates the use of `nullable = true` or `nullable = false`).
 
-Expanding on the above: Maybe my module always wants a `description` of `Managed by OpenTofu`. This is achieven
+---
 
-This mostly happens by accident when root modules use loops with `for_each` with unassigned values as shown.
+2. Do I want to always assign a **`default`** if the variable is not provided?
+
+Expanding on the above: Maybe my module always wants a `description` of `"Managed by OpenTofu"`. This is achieved by setting the `default` value in addition to `nullable = false`.
+
+This situation mostly occurs by accident when root modules use loops with `for_each` and pass **unassigned values**, as shown in the previous example.
+
+## 🔚 Closing
+
+Thanks once again for stopping by! This one got way longer then I intended it to be but I hope you had fun reading.
 
 ## 📚 References
 
