@@ -1,10 +1,10 @@
 ---
-date: "2025-09-28T19:44:06+02:00"
-modified: "2025-09-28T19:44:06+02:00"
+date: "2025-09-30T22:09:00+02:00"
+modified: "2025-09-30T22:09:00+02:00"
 
 draft: false
 
-summary: "TBD"
+summary: "Dive deep into the often-ignored variable argument nullable."
 title: "0️⃣ Let's Explore: nullable"
 
 params:
