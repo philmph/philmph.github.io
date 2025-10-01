@@ -37,7 +37,7 @@ We will explore the parameter `nullable` in `variable` blocks and look into some
 
 ### 📝 Introduction: What does `nullable` do?
 
-The **`nullable`** argument exists within the `variable` block and determines if the value of the variable can be `null`. This argument defaults to `true` in both Terraform and OpenTofu. For more information, [the OpenTofu documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) is a good resource.
+The `nullable` argument exists within the `variable` block and determines if the value of the variable can be `null`. This argument defaults to `true` in both Terraform and OpenTofu. For more information, [the OpenTofu documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) is a good resource.
 
 ### 🏗️ Repository Setup
 
@@ -308,7 +308,7 @@ Takeaway: If the module doesn't handle `null` properly, this could lead to unexp
 
 ## 💭 My Usage Pattern
 
-For advanced checks on variable content (like format or length), the **`validation`** block is the right choice.
+For advanced checks on variable content (like format or length), the `validation` block is the right choice.
 
 Otherwise, my key thoughts narrow down to two questions:
 
@@ -320,7 +320,7 @@ A `description` might be an optional argument to a `resource`, while `name` is l
 
 ---
 
-2. Do I want to always assign a **`default`** if the variable is not provided?
+2. Do I want to always assign a `default` if the variable is not provided?
 
 Expanding on the above: Maybe my module always wants a `description` of `"Managed by OpenTofu"`. This is achieved by setting the `default` value in addition to `nullable = false`.
 
