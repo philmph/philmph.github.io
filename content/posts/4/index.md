@@ -25,7 +25,7 @@ To follow along, you'll need:
 
 - [OpenTofu](https://opentofu.org/docs/intro/install/) installed
 
-Additionally a basic understanding of::
+Additionally a basic understanding of:
 
 - Authoring and consuming reusable [Published Modules](https://opentofu.org/docs/language/modules/#published-modules)
 
@@ -37,7 +37,7 @@ We will explore the parameter `nullable` in `variable` blocks and look into some
 
 ### 📝 Introduction: What does `nullable` do?
 
-The `nullable` argument exists within the `variable` block and determines if the value of the variable can be `null`. This argument defaults to `true` in both Terraform and OpenTofu. For more information, [the OpenTofu documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) is a good resource.
+The `nullable` argument exists within the `variable` block and determines if the value of the variable can be `null`. It defaults to `true` in both Terraform and OpenTofu. For more information, [the OpenTofu documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) is a good resource.
 
 ### 🏗️ Repository Setup
 
@@ -118,7 +118,7 @@ output "basic_usage" {
 
 ---
 
-Executing `tofu plan` results in an error because the variable `not_nullable_without_default` doesn't have a `default` value and explicitly disallows `null` as input.
+Executing `tofu plan` results in an error because the variable `not_nullable_without_default` doesn't have a `default` value and explicitly disallows `null` as input:
 
 ```bash
 ~ tofu plan
@@ -177,9 +177,7 @@ The answer lies in a key piece of information from [the documentation](https://o
 
 > If `nullable` is `false` and the variable has a `default` value, then OpenTofu uses the default when a module input argument is `null`.
 
-In my own words: When `null` is used as an input value in `module` blocks, OpenTofu sends it to the module's `variable` **even when that variable has `nullable` set to `false`!**
-
-This behavior is especially important to realize when looping over, for example, `list` inputs with `for_each` in a `module` block. If not handled, unassigned or missing values will also send `null` to the receiving module.
+This behavior is especially important to realize when looping over, for example, `list` inputs with `for_each` in a `module` block. If not handled, unassigned or missing values will also send `null` to the receiving module (we will see this later).
 
 ---
 
@@ -200,7 +198,7 @@ resource "azurerm_resource_group" "this" {
 }
 ```
 
-In the first example, the value for the `location` argument is treated like it has not been defined (just as in the second example), which will lead to an error because **`location` is a required argument** for the `azurerm_resource_group` resource.
+In the first example, the value for the `location` argument is treated like it has not been defined (just as in the second example), which will lead to an error because `location` is a required argument for the `azurerm_resource_group` resource.
 
 ---
 
@@ -231,7 +229,7 @@ variable "name" {
 }
 ```
 
-per default allows `null` to be provided, **even though the `variable` is technically required** (no `default` defined).
+per default allows `null` to be provided, **even though the `variable` is required** (no `default` defined).
 
 This is commonly used for resource definitions that strictly require names (e.g., Azure Resource Groups). This means the module consumer can provide `null`, and a `plan` might initially appear valid.
 
