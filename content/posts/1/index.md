@@ -1,6 +1,6 @@
 ---
 date: "2025-05-07T20:57:31+02:00"
-modified: "2025-10-04T19:48:00+02:00"
+modified: "2025-10-04T19:58:00+02:00"
 
 draft: false
 
@@ -27,16 +27,16 @@ Here, I share deep dives, thoughts, and experiences around the tech topics I enj
 
 My goal is to create a space to document my journey, share knowledge, and connect with like-minded people.
 
-### AI Disclaimer
-
-The content of this site is written and developed by me. I utilize AI tools solely for editorial assistance, including correcting grammatical mistakes, enhancing readability, and ensuring optimal flow.
-
 ### Content philosophy
 
 - Everything I write is opinionated
 - [OpenTofu](https://opentofu.org/) is the default throughout my blog
 - Basic OpenTofu architecture and usage patterns aren't covered
 - I follow [HashiCorp's Style Guide](https://developer.hashicorp.com/terraform/language/style/) and [Terraform Best Practices](https://www.terraform-best-practices.com/)
+
+### AI Disclaimer
+
+The content of this site is written and developed by me. I utilize AI tools solely for editorial assistance, including correcting grammatical mistakes, enhancing readability, and ensuring optimal flow.
 
 ## Connect with me
 
