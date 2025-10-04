@@ -19,7 +19,7 @@ In this post, we'll be exploring the use of the `nullable` argument within Terra
 
 My point of view is that `nullable` is often overlooked or even actively disregarded. I've often seen this lead to unexpected results, even though handling `nullable` is simple and requires little effort.
 
-### 📋 Prerequisites
+### Prerequisites
 
 To follow along, you'll need:
 
@@ -35,11 +35,11 @@ We will explore the parameter `nullable` in `variable` blocks and look into some
 
 ## 🛠️ Let's Explore: `nullable`
 
-### 📝 Introduction: What does `nullable` do?
+### Introduction: What does `nullable` do?
 
 The `nullable` argument exists within the `variable` block and determines if the value of the variable can be `null`. It defaults to `true` in both Terraform and OpenTofu. For more information, [the OpenTofu documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) is a good resource.
 
-### 🏗️ Repository Setup
+### Repository Setup
 
 To keep this as simple as possible, we'll create and reuse an OpenTofu module that contains four distinct `variable` blocks:
 
@@ -97,7 +97,7 @@ output "all" {
 
 ---
 
-### 🔈️ Calling the Module
+### Calling the Module
 
 Now, let's call the module, explicitly setting all four input variables to `null`:
 
@@ -169,7 +169,7 @@ You can apply this plan to save these new output values to the OpenTofu state, w
 
 ---
 
-### 1️⃣ Not `nullable` & with `default`
+### Not `nullable` & with `default`
 
 **Why is this even possible?** If the `variable` is not `nullable`, shouldn't passing `null` always fail validation?
 
@@ -202,13 +202,13 @@ In the first example, the value for the `location` argument is treated like it h
 
 ---
 
-### 2️⃣ Not `nullable` & without `default`
+### Not `nullable` & without `default`
 
 Even though this scenario initially caused an error, there's nothing special about it. The rule is simply that the module consumer **must** provide a value other than `null` for the argument.
 
 ---
 
-### 3️⃣ `nullable` & with `default`
+### `nullable` & with `default`
 
 Since the `variable` allows `null` and we assigned it `null`, its value will simply be `null`.
 
@@ -216,7 +216,7 @@ Consequently, any resources within the module that use this `variable` as an inp
 
 ---
 
-### 4️⃣ `nullable` & without `default`
+### `nullable` & without `default`
 
 Wait... does this mean a `variable` that requires a value allows `null`? **Yes... `null` is a value.**
 
