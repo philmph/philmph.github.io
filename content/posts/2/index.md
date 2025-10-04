@@ -1,6 +1,6 @@
 ---
 date: "2025-05-12T19:00:00+02:00"
-modified: "2025-06-05T19:50:00+02:00"
+modified: "2025-10-04T19:44:00+02:00"
 
 draft: false
 
@@ -13,24 +13,24 @@ categories: ["opentofu"]
 tags: ["beginner", "opentofu", "terraform", "yaml"]
 ---
 
-## 🧭 Before we begin
+## Before we begin
 
 This post is part one of a two-part series. In this one, I'll show how to use YAML configurations in OpenTofu through a simple example. The second part will cover how to define a YAML schema and validate configuration against it.
 
 Part 2 of 2 can be found at [🧬 YAML Schema Validation in OpenTofu](/posts/3/).
 
-### 📋 Prerequisites
+### Prerequisites
 
 - [OpenTofu](https://opentofu.org/docs/intro/install/) installed
 - A [Cloudflare](https://www.cloudflare.com/) account with an existing DNS zone
 
-## 🎯 Objective
+## Objective
 
 We'll see how to use `.yaml` files instead of `locals` or `variable` definitions with `.tfvars` files to allow YAML-based, Git-tracked configuration. I've found this useful when working with modules that deploy lots of similar `resource` definitions with different values for their parameters (e.g., DNS records).
 
 The sample shows how to create [Cloudflare](https://www.cloudflare.com/) based DNS records.
 
-### 📈 Benefits
+### Benefits
 
 The main benefits I've seen from this approach:
 
@@ -38,14 +38,14 @@ The main benefits I've seen from this approach:
 - YAML is well-known, easy to read and write
 - Adds an abstraction layer, allowing non-OpenTofu users can _just write YAML_
 
-### 📉 Drawbacks
+### Drawbacks
 
 However, without YAML schema validation (which is covered in part two), there are some downsides to consider:
 
 - No defaults (unlike `variable` definitions with `.tfvars` files)
 - No quality or sanity checks for the provided input
 
-## 🛠️ Using YAML in OpenTofu
+## Using YAML in OpenTofu
 
 To use `.yaml` files as configuration, we'll rely on the built-in functions [`file`](https://opentofu.org/docs/language/functions/file/) and [`yamldecode`](https://opentofu.org/docs/language/functions/yamldecode/).
 
@@ -168,11 +168,11 @@ PS: You can query the records using `nslookup` or `dig` - they exist.
 
 Other required files (`providers.tf`, `terraform.tf`, `variables.tf`) can be found in the Blog-Resources Git Repository linked in the References.
 
-## 🔚 Closing
+## Closing
 
 Thanks so much for stopping by! I hope to see you back for part two, where we dive into schema creation and validation using OpenTofu.
 
-## 📚 References
+## References
 
 - [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250512_opentofu-3-yaml)
 - [Part 2 of 2 (🧬 YAML Schema Validation in OpenTofu)](/posts/3/)

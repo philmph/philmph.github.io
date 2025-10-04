@@ -1,6 +1,6 @@
 ---
 date: "2025-09-30T22:09:00+02:00"
-modified: "2025-10-01T20:41:00+02:00"
+modified: "2025-10-04T19:42:00+02:00"
 
 draft: false
 
@@ -13,13 +13,13 @@ categories: ["opentofu"]
 tags: ["intermediate", "lets-explore", "nullable", "opentofu", "terraform"]
 ---
 
-## 🧭 Before we begin
+## Before we begin
 
 In this post, we'll be exploring the use of the `nullable` argument within Terraform `variable` blocks.
 
 My point of view is that `nullable` is often overlooked or even actively disregarded. I've often seen this lead to unexpected results, even though handling `nullable` is simple and requires little effort.
 
-### 📋 Prerequisites
+### Prerequisites
 
 To follow along, you'll need:
 
@@ -29,17 +29,17 @@ Additionally a basic understanding of:
 
 - Authoring and consuming reusable [Published Modules](https://opentofu.org/docs/language/modules/#published-modules)
 
-## 🎯 Objective
+## Objective
 
 We will explore the parameter `nullable` in `variable` blocks and look into some edge cases (which you will find in a lot of modules).
 
-## 🛠️ Let's Explore: `nullable`
+## Let's Explore: `nullable`
 
-### 📝 Introduction: What does `nullable` do?
+### Introduction: What does `nullable` do?
 
 The `nullable` argument exists within the `variable` block and determines if the value of the variable can be `null`. It defaults to `true` in both Terraform and OpenTofu. For more information, [the OpenTofu documentation](https://opentofu.org/docs/language/values/variables/#disallowing-null-input-values) is a good resource.
 
-### 🏗️ Repository Setup
+### Repository Setup
 
 To keep this as simple as possible, we'll create and reuse an OpenTofu module that contains four distinct `variable` blocks:
 
@@ -97,7 +97,7 @@ output "all" {
 
 ---
 
-### 🔈️ Calling the Module
+### Calling the Module
 
 Now, let's call the module, explicitly setting all four input variables to `null`:
 
@@ -169,7 +169,7 @@ You can apply this plan to save these new output values to the OpenTofu state, w
 
 ---
 
-### 1️⃣ Not `nullable` & with `default`
+### Not `nullable` & with `default`
 
 **Why is this even possible?** If the `variable` is not `nullable`, shouldn't passing `null` always fail validation?
 
@@ -202,13 +202,13 @@ In the first example, the value for the `location` argument is treated like it h
 
 ---
 
-### 2️⃣ Not `nullable` & without `default`
+### Not `nullable` & without `default`
 
 Even though this scenario initially caused an error, there's nothing special about it. The rule is simply that the module consumer **must** provide a value other than `null` for the argument.
 
 ---
 
-### 3️⃣ `nullable` & with `default`
+### `nullable` & with `default`
 
 Since the `variable` allows `null` and we assigned it `null`, its value will simply be `null`.
 
@@ -216,7 +216,7 @@ Consequently, any resources within the module that use this `variable` as an inp
 
 ---
 
-### 4️⃣ `nullable` & without `default`
+### `nullable` & without `default`
 
 Wait... does this mean a `variable` that requires a value allows `null`? **Yes... `null` is a value.**
 
@@ -235,7 +235,7 @@ This is commonly used for resource definitions that strictly require names (e.g.
 
 Note that a `validation` block can also prevent the use of `null`.
 
-## 💣 The "problem" with `for_each`
+## The "problem" with `for_each`
 
 Let's add a loop example to our root `main.tf`:
 
@@ -304,7 +304,7 @@ Therefore, we'll be sending `null` for all unprovided values to the module, resu
 
 Takeaway: If the module doesn't handle `null` properly, this could lead to unexpected errors.
 
-## 💭 My Usage Pattern
+## My Usage Pattern
 
 For advanced checks on variable content (like format or length), the `validation` block is the right choice.
 
@@ -324,11 +324,11 @@ Expanding on the above: Maybe my module always wants a `description` of `"Manage
 
 This situation mostly occurs by accident when root modules use loops with `for_each` and pass **unassigned values**, as shown in the previous example.
 
-## 🔚 Closing
+## Closing
 
 Thanks once again for stopping by! This one got way longer then I intended it to be but I hope you had fun reading.
 
-## 📚 References
+## References
 
 - [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250928-nullable)
 - [GitHub Code Samples (Terraform-Explorer)](https://github.com/philmph/Terraform-Explorer/tree/main/input-methods-and-nullable)
