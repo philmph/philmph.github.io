@@ -13,7 +13,7 @@ categories: ["opentofu"]
 tags: ["intermediate", "lets-explore", "nullable", "opentofu", "terraform"]
 ---
 
-## 🧭 Before we begin
+## Before we begin
 
 In this post, we'll be exploring the use of the `nullable` argument within Terraform `variable` blocks.
 
@@ -29,11 +29,11 @@ Additionally a basic understanding of:
 
 - Authoring and consuming reusable [Published Modules](https://opentofu.org/docs/language/modules/#published-modules)
 
-## 🎯 Objective
+## Objective
 
 We will explore the parameter `nullable` in `variable` blocks and look into some edge cases (which you will find in a lot of modules).
 
-## 🛠️ Let's Explore: `nullable`
+## Let's Explore: `nullable`
 
 ### Introduction: What does `nullable` do?
 
@@ -235,7 +235,7 @@ This is commonly used for resource definitions that strictly require names (e.g.
 
 Note that a `validation` block can also prevent the use of `null`.
 
-## 💣 The "problem" with `for_each`
+## The "problem" with `for_each`
 
 Let's add a loop example to our root `main.tf`:
 
@@ -304,7 +304,7 @@ Therefore, we'll be sending `null` for all unprovided values to the module, resu
 
 Takeaway: If the module doesn't handle `null` properly, this could lead to unexpected errors.
 
-## 💭 My Usage Pattern
+## My Usage Pattern
 
 For advanced checks on variable content (like format or length), the `validation` block is the right choice.
 
@@ -324,11 +324,11 @@ Expanding on the above: Maybe my module always wants a `description` of `"Manage
 
 This situation mostly occurs by accident when root modules use loops with `for_each` and pass **unassigned values**, as shown in the previous example.
 
-## 🔚 Closing
+## Closing
 
 Thanks once again for stopping by! This one got way longer then I intended it to be but I hope you had fun reading.
 
-## 📚 References
+## References
 
 - [GitHub Code Samples (Blog-Resources)](https://github.com/philmph/Blog-Resources/tree/main/posts/20250928-nullable)
 - [GitHub Code Samples (Terraform-Explorer)](https://github.com/philmph/Terraform-Explorer/tree/main/input-methods-and-nullable)
