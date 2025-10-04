@@ -69,11 +69,11 @@ params:
       url: "https://github.com/philmph"
     - name: "linkedin"
       url: "https://www.linkedin.com/in/philipp-maier-801b54138"
-    - name: "xing"
-      url: "https://www.xing.com/profile/Philipp_Maier63/cv"
-    # TODO: Activate later when this actually has valueable content
-    # - name: "kofi"
-    #   url: "https://ko-fi.com/philmph"
+    - name: "kofi"
+      url: "https://ko-fi.com/philmph"
+    # ??? I no longer use XING
+    # - name: "xing"
+    #   url: "https://www.xing.com/profile/Philipp_Maier63/cv"
 
   # Regular configuration options sorted per docs
   # https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-variables/
