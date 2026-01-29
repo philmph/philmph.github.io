@@ -68,7 +68,7 @@ jobs:
 
       - name: Cache Restore
         id: cache-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ${{ runner.temp }}/hugo_cache
           # key: is required but will never be found since it is a new unique id ->
@@ -84,7 +84,7 @@ jobs:
         run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/" --cacheDir "${{ runner.temp }}/hugo_cache"
 
       - name: Cache Save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ${{ runner.temp }}/hugo_cache
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
