@@ -53,7 +53,7 @@ jobs:
         run: sudo snap install dart-sass
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Fetch depth is need because of the PaperMod Git Submodule
           submodules: recursive
